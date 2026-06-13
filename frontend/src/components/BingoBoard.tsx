@@ -29,8 +29,8 @@ export function BingoBoard({ drawnNumbers, onToggleNumber }: BingoBoardProps) {
         const numbers = Array.from({ length: 15 }, (_, idx) => start + idx);
         
         return (
-          <div key={letter} className="flex flex-nowrap items-center gap-1 md:gap-2 w-full pb-1">
-            <div className="text-2xl md:text-5xl font-bold w-10 md:w-16 shrink-0 text-center text-foreground border-r-2 border-foreground/10 py-1">
+          <div key={letter} className="flex flex-nowrap items-center gap-1 md:gap-2 lg:gap-4 w-full pb-2">
+            <div className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black w-12 md:w-20 lg:w-28 shrink-0 text-center text-foreground border-r-4 border-foreground/10 py-2">
               {letter}
             </div>
             {numbers.map(num => {
@@ -46,8 +46,8 @@ export function BingoBoard({ drawnNumbers, onToggleNumber }: BingoBoardProps) {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => onToggleNumber(num)}
                   className={cn(
-                    "flex-1 aspect-square max-w-[5rem] max-h-[5rem] min-w-[1.5rem] min-h-[1.5rem] flex items-center justify-center rounded-md md:rounded-lg border-2 text-sm sm:text-xl md:text-3xl font-bold transition-all duration-300 shadow-sm",
-                    isDrawn ? cn(bgColor, "text-white border-transparent shadow-lg scale-105") : cn("bg-background hover:bg-foreground/5", borderColor, textColor)
+                    "flex-1 aspect-square min-w-[1.5rem] min-h-[1.5rem] flex items-center justify-center rounded-lg lg:rounded-2xl border-2 lg:border-4 text-xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold transition-all duration-300 shadow-sm",
+                    isDrawn ? cn(bgColor, "text-white border-transparent shadow-xl scale-[1.02]") : cn("bg-background hover:bg-foreground/5", borderColor, textColor)
                   )}
                 >
                   {num}
