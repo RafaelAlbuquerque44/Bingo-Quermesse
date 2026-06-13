@@ -30,14 +30,14 @@ export function LastBalls({ drawnNumbers }: LastBallsProps) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 glass rounded-2xl shadow-xl w-full max-w-xl border-t-4 border-t-green-500">
-      <h3 className="text-xl md:text-2xl font-bold mb-6 text-foreground/80">Últimos Números Chamados</h3>
-      <div className="flex items-center justify-center gap-4 w-full">
+    <div className="flex flex-col items-center justify-center p-6 lg:p-10 glass rounded-2xl shadow-xl w-full max-w-4xl border-t-8 border-t-green-500">
+      <h3 className="text-2xl md:text-3xl lg:text-5xl font-bold mb-6 lg:mb-10 text-foreground/80">Últimos Números Chamados</h3>
+      <div className="flex items-center justify-center gap-4 lg:gap-8 w-full">
         {previous.map((num, i) => (
           <div 
             key={`prev-${i}-${num || 'empty'}`}
             className={cn(
-              "w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-white shadow-inner transition-colors duration-500",
+              "w-16 h-16 md:w-24 md:h-24 lg:w-32 lg:h-32 rounded-full flex items-center justify-center text-3xl md:text-4xl lg:text-6xl font-bold text-white shadow-inner transition-colors duration-500",
               num ? cn(getColor(num), "opacity-80") : "bg-foreground/20 text-transparent opacity-60"
             )}
           >
@@ -54,14 +54,14 @@ export function LastBalls({ drawnNumbers }: LastBallsProps) {
               exit={{ scale: 0, opacity: 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
               className={cn(
-                "w-28 h-28 md:w-36 md:h-36 rounded-full flex items-center justify-center text-5xl md:text-6xl font-bold text-white shadow-2xl z-10 ml-4 border-4 border-white/20",
+                "w-36 h-36 md:w-48 md:h-48 lg:w-64 lg:h-64 rounded-full flex items-center justify-center text-7xl md:text-8xl lg:text-9xl font-bold text-white shadow-2xl z-10 lg:ml-8 border-8 border-white/20",
                 getColor(current)
               )}
             >
               {current}
             </motion.div>
           ) : (
-            <div className="w-28 h-28 md:w-36 md:h-36 rounded-full flex items-center justify-center text-5xl md:text-6xl font-bold text-white/50 bg-foreground/20 shadow-inner ml-4">
+            <div className="w-36 h-36 md:w-48 md:h-48 lg:w-64 lg:h-64 rounded-full flex items-center justify-center text-7xl md:text-8xl lg:text-9xl font-bold text-white/50 bg-foreground/20 shadow-inner lg:ml-8">
               --
             </div>
           )}
