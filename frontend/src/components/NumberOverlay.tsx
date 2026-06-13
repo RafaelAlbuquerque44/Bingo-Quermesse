@@ -4,30 +4,47 @@ import { getLetter } from './BingoBoard';
 
 interface NumberOverlayProps {
   drawnNumber: number | null;
+  isDrawing: boolean;
   onComplete: () => void;
 }
 
-export function NumberOverlay({ drawnNumber, onComplete }: NumberOverlayProps) {
+export function NumberOverlay({ drawnNumber, isDrawing, onComplete }: NumberOverlayProps) {
   useEffect(() => {
-    if (drawnNumber !== null) {
+    if (drawnNumber !== null && !isDrawing) {
       const timer = setTimeout(() => {
         onComplete();
       }, 4000);
       return () => clearTimeout(timer);
     }
-  }, [drawnNumber, onComplete]);
+  }, [drawnNumber, isDrawing, onComplete]);
 
   return (
     <AnimatePresence>
       {drawnNumber !== null && (
-        <OverlayContent drawnNumber={drawnNumber} onComplete={onComplete} />
+        <OverlayContent drawnNumber={drawnNumber} isDrawing={isDrawing} onComplete={onComplete} />
       )}
     </AnimatePresence>
   );
 }
 
-function OverlayContent({ drawnNumber, onComplete }: { drawnNumber: number, onComplete: () => void }) {
-  const letter = getLetter(drawnNumber);
+function OverlayContent({ drawnNumber, isDrawing, onComplete }: { drawnNumber: number, isDrawing: boolean, onComplete: () => void }) {
+  const [displayNum, setDisplayNum] = useState(drawnNumber);
+
+  useEffect(() => {
+    if (!isDrawing) {
+      setDisplayNum(drawnNumber);
+      return;
+    }
+    
+    // Efeito de roleta rápida
+    const interval = setInterval(() => {
+      setDisplayNum(Math.floor(Math.random() * 75) + 1);
+    }, 50);
+    
+    return () => clearInterval(interval);
+  }, [isDrawing, drawnNumber]);
+
+  const letter = getLetter(displayNum);
   const getColor = (l: string) => {
     switch (l) {
       case 'B': return '#3b82f6';
@@ -57,7 +74,7 @@ function OverlayContent({ drawnNumber, onComplete }: { drawnNumber: number, onCo
         className="w-80 h-80 md:w-96 md:h-96 rounded-full bg-white border-[12px] flex flex-col items-center justify-center shadow-[0_0_80px_rgba(255,255,255,0.4)]"
       >
         <span className="text-4xl md:text-5xl font-bold mb-[-10px]">{letter}</span>
-        <span className="text-[10rem] md:text-[12rem] font-black leading-none">{drawnNumber}</span>
+        <span className="text-[10rem] md:text-[12rem] font-black leading-none">{displayNum}</span>
       </motion.div>
     </motion.div>
   );

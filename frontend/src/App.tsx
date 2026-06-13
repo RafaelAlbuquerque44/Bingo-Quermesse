@@ -4,10 +4,12 @@ import { LastBalls } from './components/LastBalls';
 import { MissingCount } from './components/MissingCount';
 import { Controls } from './components/Controls';
 import { NumberOverlay } from './components/NumberOverlay';
+import { BackgroundParticles } from './components/BackgroundParticles';
 
 function App() {
   const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
-  const [theme, setTheme] = useState<string>('light');
+  const [theme, setTheme] = useState('dark');
+  const [isDrawing, setIsDrawing] = useState(false);
   const [overlayNumber, setOverlayNumber] = useState<number | null>(null);
 
   useEffect(() => {
@@ -43,14 +45,20 @@ function App() {
   };
 
   const drawNumber = () => {
-    if (drawnNumbers.length >= 75) return;
+    if (drawnNumbers.length >= 75 || isDrawing) return;
     
+    setIsDrawing(true);
+
     const available = Array.from({ length: 75 }, (_, i) => i + 1).filter(n => !drawnNumbers.includes(n));
     const randomIdx = Math.floor(Math.random() * available.length);
     const num = available[randomIdx];
     
-    setDrawnNumbers(prev => [...prev, num]);
     setOverlayNumber(num);
+
+    setTimeout(() => {
+      setDrawnNumbers(prev => [...prev, num]);
+      setIsDrawing(false);
+    }, 2000);
   };
 
   const resetBoard = () => {
@@ -72,7 +80,9 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen transition-colors duration-500 pb-20 pt-4 px-2 md:px-4 flex flex-col items-center w-full">
+    <div className="min-h-screen transition-colors duration-500 pb-20 pt-4 px-2 md:px-4 flex flex-col items-center w-full relative z-0">
+      <BackgroundParticles />
+      
       <div className="w-full flex flex-col md:flex-row gap-4 mb-4 items-stretch justify-center">
         <LastBalls drawnNumbers={drawnNumbers} />
         <MissingCount totalDrawn={drawnNumbers.length} />
@@ -86,10 +96,11 @@ function App() {
         theme={theme} 
         setTheme={setTheme} 
         allDrawn={drawnNumbers.length >= 75}
+        isDrawing={isDrawing}
         onFullscreen={toggleFullscreen}
       />
       
-      <NumberOverlay drawnNumber={overlayNumber} onComplete={() => setOverlayNumber(null)} />
+      <NumberOverlay drawnNumber={overlayNumber} isDrawing={isDrawing} onComplete={() => setOverlayNumber(null)} />
     </div>
   );
 }

@@ -8,10 +8,11 @@ interface ControlsProps {
   theme: string;
   setTheme: (theme: string) => void;
   allDrawn: boolean;
+  isDrawing: boolean;
   onFullscreen: () => void;
 }
 
-export function Controls({ onDraw, onReset, theme, setTheme, allDrawn, onFullscreen }: ControlsProps) {
+export function Controls({ onDraw, onReset, theme, setTheme, allDrawn, isDrawing, onFullscreen }: ControlsProps) {
   return (
     <div className="fixed bottom-6 left-6 flex flex-col gap-4 z-50">
       <div className="flex gap-2 p-2 glass rounded-full shadow-lg">
@@ -34,7 +35,7 @@ export function Controls({ onDraw, onReset, theme, setTheme, allDrawn, onFullscr
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={onDraw}
-        disabled={allDrawn}
+        disabled={allDrawn || isDrawing}
         className="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white p-4 rounded-2xl shadow-xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed border border-green-500/50"
       >
         <Dices size={28} />
