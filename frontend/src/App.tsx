@@ -5,12 +5,15 @@ import { MissingCount } from './components/MissingCount';
 import { Controls } from './components/Controls';
 import { NumberOverlay } from './components/NumberOverlay';
 import { BackgroundParticles } from './components/BackgroundParticles';
+import { PlayerCard } from './components/PlayerCard';
+import { QRCodeModal } from './components/QRCodeModal';
 
 function App() {
   const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
   const [theme, setTheme] = useState('dark');
   const [isDrawing, setIsDrawing] = useState(false);
   const [overlayNumber, setOverlayNumber] = useState<number | null>(null);
+  const [isQROpen, setIsQROpen] = useState(false);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('bingo-theme') || 'light';
@@ -79,9 +82,22 @@ function App() {
     }
   };
 
+  const isPlayerCard = new URLSearchParams(window.location.search).get('cartela') === 'true';
+
+  if (isPlayerCard) {
+    return <PlayerCard />;
+  }
+
   return (
     <div className="min-h-screen transition-colors duration-500 pb-20 pt-4 px-2 md:px-4 flex flex-col items-center w-full relative z-0">
       <BackgroundParticles />
+      <QRCodeModal 
+        isOpen={isQROpen} 
+        onClose={() => setIsQROpen(false)} 
+        // Usa o IP local da rede. Se hostname for localhost, ele só funciona na mesma maquina.
+        // O ideal é a pessoa acessar o IP da maquina dela no futuro, mas vamos usar o hostname base.
+        url={`${window.location.protocol}//${window.location.host}/?cartela=true`} 
+      />
       
       <div className="w-full flex flex-col md:flex-row gap-4 mb-4 items-stretch justify-center">
         <LastBalls drawnNumbers={drawnNumbers} />
@@ -98,6 +114,7 @@ function App() {
         allDrawn={drawnNumbers.length >= 75}
         isDrawing={isDrawing}
         onFullscreen={toggleFullscreen}
+        onOpenQR={() => setIsQROpen(true)}
       />
       
       <NumberOverlay drawnNumber={overlayNumber} isDrawing={isDrawing} onComplete={() => setOverlayNumber(null)} />
