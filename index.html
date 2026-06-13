@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Painel interativo para sorteio de bingo com números de 1 a 75">
+  <meta name="theme-color" content="#2c3e50">
+  <title>Painel de Bingo (1 a 75)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Header removed per user request -->
+
+  <main>
+    <div class="controls-and-info">
+      <div id="ultimo-sorteado-container">
+        <h3>Últimos Números Chamados</h3>
+        <div id="recent-balls-container">
+          <div id="ball-prev-4" class="ball-prev"></div>
+          <div id="ball-prev-3" class="ball-prev"></div>
+          <div id="ball-prev-2" class="ball-prev"></div>
+          <div id="ball-prev-1" class="ball-prev"></div>
+          <div id="ball-current" class="ball-current">--</div>
+        </div>
+      </div>
+
+      <div id="bolinhas-faltantes-container">
+        <h2>Faltam: <span id="bolinhas-restantes-display">75</span></h2>
+        <!-- Lista detalhada removida -->
+      </div>
+
+      <!-- Buttons moved to floating container -->
+    </div>
+
+
+    <div id="painel-bingo" class="bingo-grid"></div>
+
+    <!-- Bottom Info Removed -->
+  </main>
+
+  <div class="botoes-container">
+    <div id="controls-expanded" class="hidden">
+      <button id="btn-sortear">Sortear Número</button>
+      <button id="btn-reset">Resetar Painel</button>
+      <hr style="width: 100%; border: 0; border-top: 1px solid #ccc; margin: 5px 0;">
+      <div class="theme-options-row">
+        <button class="theme-btn" data-theme="light" title="Modo Claro">☀️</button>
+        <button class="theme-btn" data-theme="dark" title="Modo Noturno">🌙</button>
+        <button class="theme-btn" data-theme="black" title="Modo Preto">🖤</button>
+      </div>
+    </div>
+    <button id="btn-toggle-controls" title="Opções">⚙️</button>
+  </div>
+
+  <div id="number-overlay" class="overlay-hidden">
+    <div id="overlay-content">
+      <span id="overlay-text"></span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

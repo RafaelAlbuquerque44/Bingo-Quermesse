@@ -1,0 +1,621 @@
+:root {
+  /* Cores Principais */
+  --color-primary: #007bff;
+  --color-secondary: #dc3545;
+  --color-tertiary: #ffc107;
+  --color-success: #28a745;
+  --color-purple: #6f42c1;
+
+  --color-dark: #333;
+  --color-light: #f4f4f9;
+  --color-white: #fff;
+  --color-reset: #f44336;
+  /* Vermelho para Reset */
+  --color-sort: #008000;
+  /* Verde escuro para Sortear */
+  --color-sorted-bg: #4caf50;
+  /* Cor Verde para Números Sorteados */
+
+  /* Espaçamento */
+  --spacing-sm: 10px;
+  --spacing-md: 20px;
+  --spacing-lg: 40px;
+
+  /* Backgrounds Dinâmicos */
+  --bg-controls: #e0e0e0;
+  --bg-missing-container: #fcebeb;
+  --bg-sorted-container: #e9f5ff;
+  --bg-chip: #fff;
+  --text-chip: #333;
+}
+
+/* TEMA NOTURNO (DARK) */
+body.dark-mode {
+  --color-primary: #375a7f;
+  --color-secondary: #e74c3c;
+  --color-tertiary: #f39c12;
+  --color-success: #00bc8c;
+  --color-purple: #9b59b6;
+  --color-dark: #f8f9fa;
+  --color-light: #222;
+  --color-white: #303030;
+  --color-reset: #c0392b;
+  --color-sort: #27ae60;
+  --color-sorted-bg: #27ae60;
+
+  --bg-controls: #444;
+  --bg-missing-container: #4a2c2c;
+  --bg-sorted-container: #2c3e50;
+  --bg-chip: #555;
+  --text-chip: #f4f4f9;
+}
+
+/* TEMA PRETO (BLACK - OLED) */
+body.black-mode {
+  --color-primary: #1a1a1a;
+  --color-secondary: #b00;
+  --color-tertiary: #d4ac0d;
+  --color-success: #006400;
+  --color-purple: #5b2c6f;
+  --color-dark: #e0e0e0;
+  --color-light: #000000;
+  --color-white: #121212;
+  --color-reset: #800000;
+  --color-sort: #004d00;
+  --color-sorted-bg: #006400;
+
+  --bg-controls: #1a1a1a;
+  --bg-missing-container: #300;
+  --bg-sorted-container: #001f3f;
+  --bg-chip: #000;
+  --text-chip: #ddd;
+}
+
+/* Ajustes específicos para o modo preto para garantir contraste */
+body.black-mode .controls-and-info,
+body.black-mode #painel-bingo,
+body.black-mode #sorteados,
+body.black-mode #ultimo-sorteado-container {
+  border-color: #333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------------------------------- */
+/* BASE (CORREÇÃO PARA FULL-WIDTH) */
+/* ---------------------------------- */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 0;
+  /* REMOVIDO padding para que o body encoste nas bordas */
+  background-color: var(--color-light);
+  margin: 0;
+  /* REMOVIDO margin padrão */
+  width: 100%;
+  /* Garante que o body ocupe 100% */
+}
+
+header h1 {
+  margin-top: var(--spacing-md);
+  color: var(--color-dark);
+}
+
+/* ---------------------------------- */
+/* PAINEL PRINCIPAL (FULL-WIDTH) */
+/* ---------------------------------- */
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  /* OCUPA LARGURA TOTAL */
+  max-width: none;
+  /* REMOVE LIMITE */
+  margin: 0 auto;
+  padding: var(--spacing-md);
+  /* Padding interno para que o conteúdo não grude nas bordas da tela */
+}
+
+/* Garante que os containers internos se expandam, mas mantendo um limite visual em telas MUITO grandes */
+.controls-and-info,
+#painel-bingo,
+.controls-and-info-bottom {
+  width: 100%;
+  /* OCUPA 100% da largura do MAIN (que agora é 100% da tela) */
+  max-width: 1600px;
+  /* Limite opcional para estética em monitores ultra-wide */
+  margin: 0 auto;
+}
+
+/* ---------------------------------- */
+/* CONTROLES DE TOPO */
+/* ---------------------------------- */
+
+.controls-and-info {
+  display: grid;
+  grid-template-areas: "last-num missing";
+  grid-template-columns: 3fr 1fr;
+  align-items: center;
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  background-color: var(--bg-controls);
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  gap: 20px;
+}
+
+/* Último Número Chamado */
+#ultimo-sorteado-container {
+  grid-area: last-num;
+  /* flex: 1.2; REMOVED FLEX */
+  min-width: 300px;
+  border: 4px solid var(--color-success);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-white);
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(40, 167, 69, 0.4);
+  padding: 20px;
+}
+
+/* Container das 3 Últimas Bolas */
+#recent-balls-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.ball-prev {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  font-weight: bold;
+  color: white;
+  opacity: 0.6;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ball-current {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  display: flex;
+  /* Flexbox para centralizar */
+  justify-content: center;
+  /* Horizontal */
+  align-items: center;
+  /* Vertical */
+  font-size: 5em;
+  font-weight: bold;
+  color: white;
+  /* Default text color */
+  border: 8px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  transform: scale(1.1);
+  background-color: #ccc;
+  /* Default gray for empty */
+  margin: 0 15px;
+  /* Espaço extra */
+}
+
+/* Seção de Faltantes (Área Vermelha - MAIS COMPACTA) */
+#bolinhas-faltantes-container {
+  grid-area: missing;
+  /* flex: 2; REMOVED FLEX */
+  padding: 10px;
+  border: 3px solid var(--color-secondary);
+  border-radius: 10px;
+  border: 3px solid var(--color-secondary);
+  border-radius: 10px;
+  background-color: var(--bg-missing-container);
+  text-align: center;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+#bolinhas-faltantes-container h2 {
+  font-size: 1.5em;
+  color: var(--color-secondary);
+  margin-bottom: 5px;
+}
+
+#bolinhas-restantes-display {
+  font-size: 3em;
+  font-weight: bold;
+  color: var(--color-secondary);
+  display: block;
+}
+
+/* Lista removida, apenas ajustes de padding */
+
+.missing-chip {
+  background-color: var(--bg-chip);
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 2px 6px;
+  padding: 2px 6px;
+  font-size: 0.8em;
+  color: var(--text-chip);
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Container de Botões (FLUTUANTE ESQUERDA) */
+.botoes-container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px;
+  z-index: 1000;
+  /* Removed background from container itself to let buttons float */
+  pointer-events: none;
+  /* Let clicks pass through empty space */
+}
+
+/* Re-enable pointer events for contents */
+.botoes-container>* {
+  pointer-events: auto;
+}
+
+
+/* Controls Expanded Area */
+#controls-expanded {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  margin-bottom: 5px;
+
+  /* Animation */
+  transition: all 0.3s ease;
+  transform-origin: bottom left;
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+#controls-expanded.hidden {
+  opacity: 0;
+  transform: scale(0.8) translateY(20px);
+  pointer-events: none;
+  visibility: hidden;
+  /* Ensure it's not clickable */
+  position: absolute;
+  /* Take out of flow to not push toggle up/down unexpectedly if needed, but flex handles it. Visibility hidden is safer */
+  display: none;
+  /* Just simple display none for now effectively */
+}
+
+/* Remove absolute/fixed from hidden to allow animation? 
+   Actually display:none breaks animation. Let's use visibility/opacity for animation.
+*/
+#controls-expanded.hidden {
+  display: none;
+}
+
+/* Wait, simple solution first */
+
+/* Toggle Button Style */
+#btn-toggle-controls {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  font-size: 1.8em;
+  cursor: pointer;
+  padding: 10px;
+  /* Bigger touch target */
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s;
+}
+
+#btn-toggle-controls:hover {
+  transform: rotate(90deg) scale(1.1);
+}
+
+body.dark-mode #controls-expanded,
+body.black-mode #controls-expanded {
+  background-color: rgba(50, 50, 50, 0.9);
+}
+
+body.dark-mode #btn-toggle-controls,
+body.black-mode #btn-toggle-controls {
+  background-color: rgba(50, 50, 50, 0.8);
+  color: white;
+}
+
+body.dark-mode .botoes-container,
+body.black-mode .botoes-container {
+  background-color: rgba(50, 50, 50, 0.8);
+}
+
+.botoes-container button {
+  padding: 15px 10px;
+  font-size: 1em;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#btn-sortear {
+  background-color: var(--color-sort);
+}
+
+#btn-sortear:hover {
+  background-color: #006400;
+}
+
+#btn-reset {
+  background-color: var(--color-reset);
+}
+
+#btn-reset:hover {
+  background-color: #d32f2f;
+}
+
+/* ---------------------------------- */
+/* PAINEL BINGO: LAYOUT DE GRADE */
+/* ---------------------------------- */
+
+#painel-bingo {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md);
+  background-color: var(--color-white);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.bingo-grid__letter {
+  font-size: 3em;
+  /* Aumentado */
+  font-weight: bold;
+  color: var(--color-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-right: 2px solid #ddd;
+  border-bottom: 1px solid #eee;
+}
+
+.bingo-grid__numbers-row {
+  display: flex;
+  flex-wrap: nowrap;
+  /* Não quebrar linha */
+  /* align-items: center; REMOVIDO para teste de alinhamento */
+  align-items: center;
+  gap: 15px;
+  /* Reduzido levemente para caber melhor */
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  justify-content: flex-start;
+  /* Alinha à esquerda para scroll funcionar bem */
+  overflow-x: auto;
+  /* Permite scroll se tela for pequena */
+}
+
+.bingo-grid__numbers-row:last-child {
+  border-bottom: none;
+}
+
+/* ---------------------------------- */
+/* Estilo dos Números (Fichas) */
+/* ---------------------------------- */
+
+.number-chip {
+  width: 80px;
+  /* Aumentado para preencher mais */
+  height: 80px;
+  /* Aumentado */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: var(--color-white);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 2.5em;
+  /* Aumentado */
+  font-weight: bold;
+  color: var(--color-dark);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.number-chip.sorted {
+  background-color: var(--color-sorted-bg);
+  color: var(--color-white);
+  border-color: #388e3c;
+  cursor: default;
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Estilo para a lista de Sorteados (Bolinhas Coloridas) */
+/* Estilos de lista removidos */
+
+#lista-sorteados li {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9em;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .controls-and-info {
+    display: flex;
+    /* Volta para flex no mobile */
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  /* Ajuste para mobile: botões fixos podem atrapalhar, mas user pediu fixo. 
+     Vamos manter fixo mas menor ou empilhado se necessario */
+
+
+  #ultimo-sorteado-container,
+  #bolinhas-faltantes-container,
+  .botoes-container {
+    width: 100%;
+    margin: 0;
+  }
+
+  .botoes-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .botoes-container button {
+    flex: 1;
+    font-size: 1.1em;
+  }
+}
+
+/* ---------------------------------- */
+/* THEME SWITCHER (Floating Bottom Right) */
+/* ---------------------------------- */
+/* ---------------------------------- */
+/* THEME SWITCHER (Now inside Controls) */
+/* ---------------------------------- */
+/* Removed fixed positioning for .theme-switcher as it is deleted */
+
+.theme-options-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  width: 100%;
+}
+
+.theme-btn {
+  background: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 1.5em;
+  /* Keep icons large enough */
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: transform 0.2s, background-color 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  flex: 1;
+  /* Distribute space */
+}
+
+/* Specific background for buttons inside the menu to stand out a bit if needed, or keep transparent */
+.theme-btn:hover {
+  transform: scale(1.1);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .theme-btn,
+body.black-mode .theme-btn {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+body.dark-mode .theme-btn:hover,
+body.black-mode .theme-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ---------------------------------- */
+/* OVERLAY ANIMAÇÃO NÚMERO GRANDE */
+/* ---------------------------------- */
+#number-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s, visibility 0.3s;
+  backdrop-filter: blur(5px);
+}
+
+.overlay-hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none;
+}
+
+#overlay-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.5);
+  animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#overlay-text {
+  font-size: 15rem;
+  font-weight: bold;
+  color: #333;
+}
+
+@keyframes zoomIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
