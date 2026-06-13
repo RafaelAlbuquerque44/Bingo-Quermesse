@@ -5,9 +5,9 @@ echo       INICIANDO O SISTEMA DE BINGO
 echo ==========================================
 echo.
 echo Iniciando o painel na interface grafica...
+echo O Node.js vai descobrir seu IP para o celular funcionar.
 echo Aguarde alguns segundos para o navegador abrir.
 echo.
 
-cd frontend
-start http://localhost:5173
-npm run dev
+node start.js
+pause
