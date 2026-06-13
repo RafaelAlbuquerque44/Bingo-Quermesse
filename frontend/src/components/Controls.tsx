@@ -1,4 +1,4 @@
-import { Sun, Moon, Monitor, RefreshCw, Dices } from 'lucide-react';
+import { Sun, Moon, Monitor, RefreshCw, Dices, Maximize } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '../lib/utils';
 
@@ -8,9 +8,10 @@ interface ControlsProps {
   theme: string;
   setTheme: (theme: string) => void;
   allDrawn: boolean;
+  onFullscreen: () => void;
 }
 
-export function Controls({ onDraw, onReset, theme, setTheme, allDrawn }: ControlsProps) {
+export function Controls({ onDraw, onReset, theme, setTheme, allDrawn, onFullscreen }: ControlsProps) {
   return (
     <div className="fixed bottom-6 left-6 flex flex-col gap-4 z-50">
       <div className="flex gap-2 p-2 glass rounded-full shadow-lg">
@@ -20,8 +21,12 @@ export function Controls({ onDraw, onReset, theme, setTheme, allDrawn }: Control
         <button onClick={() => setTheme('dark')} className={cn("p-3 rounded-full transition-colors", theme === 'dark' ? 'bg-foreground/10' : 'hover:bg-foreground/5')}>
           <Moon size={24} className={theme === 'dark' ? 'text-blue-500' : 'text-foreground/70'} />
         </button>
-        <button onClick={() => setTheme('black')} className={cn("p-3 rounded-full transition-colors", theme === 'black' ? 'bg-foreground/10' : 'hover:bg-foreground/5')}>
+        <button onClick={() => setTheme('black')} className={cn("p-3 rounded-full transition-colors", theme === 'black' ? 'bg-foreground/10' : 'hover:bg-foreground/5')} title="Tema Preto">
           <Monitor size={24} className={theme === 'black' ? 'text-gray-400' : 'text-foreground/70'} />
+        </button>
+        <div className="w-[1px] bg-foreground/20 mx-1"></div>
+        <button onClick={onFullscreen} className="p-3 rounded-full transition-colors hover:bg-foreground/5" title="Tela Cheia">
+          <Maximize size={24} className="text-foreground/70" />
         </button>
       </div>
       

@@ -59,9 +59,21 @@ function App() {
     }
   };
 
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  };
+
   return (
-    <div className="min-h-screen transition-colors duration-500 pb-20 pt-10 px-4 md:px-8 flex flex-col items-center">
-      <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-6 mb-8 items-stretch justify-center">
+    <div className="min-h-screen transition-colors duration-500 pb-20 pt-4 px-2 md:px-4 flex flex-col items-center w-full">
+      <div className="w-full flex flex-col md:flex-row gap-4 mb-4 items-stretch justify-center">
         <LastBalls drawnNumbers={drawnNumbers} />
         <MissingCount totalDrawn={drawnNumbers.length} />
       </div>
@@ -74,6 +86,7 @@ function App() {
         theme={theme} 
         setTheme={setTheme} 
         allDrawn={drawnNumbers.length >= 75}
+        onFullscreen={toggleFullscreen}
       />
       
       <NumberOverlay drawnNumber={overlayNumber} onComplete={() => setOverlayNumber(null)} />
