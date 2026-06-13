@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--bg-color);
+  --color-foreground: var(--fg-color);
+}
+
+@layer base {
+  :root {
+    --bg-color: hsl(0, 0%, 100%);
+    --fg-color: hsl(222.2, 84%, 4.9%);
+  }
+  .dark {
+    --bg-color: hsl(222.2, 84%, 4.9%);
+    --fg-color: hsl(210, 40%, 98%);
+  }
+  .black {
+    --bg-color: hsl(0, 0%, 0%);
+    --fg-color: hsl(210, 40%, 98%);
+  }
+  
+  body {
+    background-color: var(--bg-color);
+    color: var(--fg-color);
+  }
+}
+
+.glass {
+  @apply bg-white/10 backdrop-blur-md border border-white/20;
+}
+.dark .glass, .black .glass {
+  @apply bg-black/20 backdrop-blur-md border border-white/10;
+}

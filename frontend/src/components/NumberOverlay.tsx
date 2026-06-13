@@ -1,0 +1,64 @@
+import { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { getLetter } from './BingoBoard';
+
+interface NumberOverlayProps {
+  drawnNumber: number | null;
+  onComplete: () => void;
+}
+
+export function NumberOverlay({ drawnNumber, onComplete }: NumberOverlayProps) {
+  useEffect(() => {
+    if (drawnNumber !== null) {
+      const timer = setTimeout(() => {
+        onComplete();
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [drawnNumber, onComplete]);
+
+  return (
+    <AnimatePresence>
+      {drawnNumber !== null && (
+        <OverlayContent drawnNumber={drawnNumber} onComplete={onComplete} />
+      )}
+    </AnimatePresence>
+  );
+}
+
+function OverlayContent({ drawnNumber, onComplete }: { drawnNumber: number, onComplete: () => void }) {
+  const letter = getLetter(drawnNumber);
+  const getColor = (l: string) => {
+    switch (l) {
+      case 'B': return '#3b82f6';
+      case 'I': return '#ef4444';
+      case 'N': return '#eab308';
+      case 'G': return '#22c55e';
+      case 'O': return '#a855f7';
+      default: return '#6b7280';
+    }
+  };
+  const color = getColor(letter);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onComplete}
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[9999] cursor-pointer"
+    >
+      <motion.div
+        initial={{ scale: 0.3, y: 100, opacity: 0 }}
+        animate={{ scale: 1, y: 0, opacity: 1 }}
+        exit={{ scale: 0.3, y: -100, opacity: 0 }}
+        transition={{ type: "spring", damping: 15, stiffness: 200 }}
+        style={{ borderColor: color, color: color }}
+        className="w-80 h-80 md:w-96 md:h-96 rounded-full bg-white border-[12px] flex flex-col items-center justify-center shadow-[0_0_80px_rgba(255,255,255,0.4)]"
+      >
+        <span className="text-4xl md:text-5xl font-bold mb-[-10px]">{letter}</span>
+        <span className="text-[10rem] md:text-[12rem] font-black leading-none">{drawnNumber}</span>
+      </motion.div>
+    </motion.div>
+  );
+}

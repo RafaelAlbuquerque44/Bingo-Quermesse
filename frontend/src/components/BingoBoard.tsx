@@ -1,0 +1,62 @@
+import { cn } from '../lib/utils';
+import { motion } from 'framer-motion';
+
+const BINGO_LETTERS = ['B', 'I', 'N', 'G', 'O'];
+
+const LETTER_COLORS: Record<string, string> = {
+  B: 'border-blue-500 text-blue-500 bg-blue-500',
+  I: 'border-red-500 text-red-500 bg-red-500',
+  N: 'border-yellow-500 text-yellow-500 bg-yellow-500',
+  G: 'border-green-500 text-green-500 bg-green-500',
+  O: 'border-purple-500 text-purple-500 bg-purple-500',
+};
+
+interface BingoBoardProps {
+  drawnNumbers: number[];
+  onToggleNumber: (num: number) => void;
+}
+
+export function getLetter(val: number) {
+  const index = Math.floor((val - 1) / 15);
+  return BINGO_LETTERS[index] || '';
+}
+
+export function BingoBoard({ drawnNumbers, onToggleNumber }: BingoBoardProps) {
+  return (
+    <div className="flex flex-col gap-2 w-full max-w-5xl mx-auto p-4 md:p-6 glass rounded-2xl shadow-xl">
+      {BINGO_LETTERS.map((letter, i) => {
+        const start = i * 15 + 1;
+        const numbers = Array.from({ length: 15 }, (_, idx) => start + idx);
+        
+        return (
+          <div key={letter} className="flex flex-nowrap items-center gap-2 md:gap-4 overflow-x-auto pb-2">
+            <div className="text-3xl md:text-5xl font-bold w-12 md:w-20 shrink-0 text-center text-foreground border-r-2 border-foreground/10 py-2">
+              {letter}
+            </div>
+            {numbers.map(num => {
+              const isDrawn = drawnNumbers.includes(num);
+              const colorClasses = LETTER_COLORS[letter].split(' ');
+              const borderColor = colorClasses[0];
+              const textColor = colorClasses[1];
+              const bgColor = colorClasses[2];
+              
+              return (
+                <motion.button
+                  key={num}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => onToggleNumber(num)}
+                  className={cn(
+                    "w-14 h-14 md:w-20 md:h-20 shrink-0 flex items-center justify-center rounded-lg border-2 text-2xl md:text-3xl font-bold transition-all duration-300 shadow-sm",
+                    isDrawn ? cn(bgColor, "text-white border-transparent shadow-lg scale-105") : cn("bg-background hover:bg-foreground/5", borderColor, textColor)
+                  )}
+                >
+                  {num}
+                </motion.button>
+              );
+            })}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
