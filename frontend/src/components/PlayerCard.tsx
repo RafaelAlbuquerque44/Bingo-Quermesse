@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { cn } from '../lib/utils';
 import { BackgroundParticles } from './BackgroundParticles';
 import { Sun, Moon } from 'lucide-react';
+import Peer, { type DataConnection } from 'peerjs';
 
 const BINGO_LETTERS = ['B', 'I', 'N', 'G', 'O'];
 
@@ -34,12 +35,38 @@ interface PlayerCardProps {
 }
 
 export function PlayerCard({ theme, setTheme }: PlayerCardProps) {
-  const [card, setCard] = useState<number[][]>([]);
+  const [card, setCard] = useState<number[][]>(() => generateCard());
   const [marked, setMarked] = useState<Set<string>>(new Set(['2-2']));
+  const [playerName] = useState(() => `Jogador ${Math.floor(Math.random() * 1000)}`);
+  
+  const connRef = useRef<DataConnection | null>(null);
 
   useEffect(() => {
-    setCard(generateCard());
-  }, []);
+    const hostId = new URLSearchParams(window.location.search).get('host');
+    if (!hostId) return;
+
+    const peer = new Peer();
+    
+    peer.on('open', () => {
+      console.log('Connecting to host:', hostId);
+      const conn = peer.connect(hostId);
+      connRef.current = conn;
+      
+      conn.on('open', () => {
+        console.log('Connected! Sending init card.');
+        conn.send({
+          type: 'init',
+          name: playerName,
+          card: card,
+          marked: ['2-2']
+        });
+      });
+    });
+
+    return () => {
+      peer.destroy();
+    };
+  }, [playerName, card]);
 
   const toggleMark = (c: number, r: number) => {
     if (c === 2 && r === 2) return; // Não desmarca o Livre
@@ -48,6 +75,17 @@ export function PlayerCard({ theme, setTheme }: PlayerCardProps) {
       const next = new Set(prev);
       if (next.has(key)) next.delete(key);
       else next.add(key);
+      
+      // Envia notificação pro painel principal
+      if (connRef.current && connRef.current.open) {
+        connRef.current.send({
+          type: 'update',
+          name: playerName,
+          card: card,
+          marked: Array.from(next)
+        });
+      }
+      
       return next;
     });
   };

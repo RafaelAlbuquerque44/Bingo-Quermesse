@@ -17,7 +17,7 @@ export function BackgroundParticles() {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-white to-blue-50 dark:from-background dark:via-background dark:to-foreground/5" />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-300 via-slate-200 to-slate-400 dark:from-background dark:via-background dark:to-foreground/5" />
       {particles.map((p) => (
         <motion.div
            key={p.id}

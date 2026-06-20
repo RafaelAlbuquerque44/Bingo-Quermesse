@@ -7,18 +7,21 @@ import { NumberOverlay } from './components/NumberOverlay';
 import { BackgroundParticles } from './components/BackgroundParticles';
 import { PlayerCard } from './components/PlayerCard';
 import { QRCodeModal } from './components/QRCodeModal';
+import { PlayersModal, type PlayerState } from './components/PlayersModal';
+import Peer from 'peerjs';
+
+const isPlayerCard = new URLSearchParams(window.location.search).get('cartela') === 'true';
 
 function App() {
   const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState(() => localStorage.getItem('bingo-theme') || 'dark');
   const [isDrawing, setIsDrawing] = useState(false);
   const [overlayNumber, setOverlayNumber] = useState<number | null>(null);
   const [isQROpen, setIsQROpen] = useState(false);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('bingo-theme') || 'light';
-    setTheme(savedTheme);
-  }, []);
+  const [isPlayersOpen, setIsPlayersOpen] = useState(false);
+  
+  const [hostId, setHostId] = useState<string | null>(null);
+  const [players, setPlayers] = useState<Record<string, PlayerState>>({});
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -34,6 +37,46 @@ function App() {
     
     localStorage.setItem('bingo-theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    if (isPlayerCard) return;
+
+    const peer = new Peer();
+    
+    peer.on('open', (id) => {
+      console.log('Host pronto. ID da Sessão:', id);
+      setHostId(id);
+    });
+
+    peer.on('connection', (conn) => {
+      conn.on('data', (data: unknown) => {
+        const payload = data as { type: string; name: string; card: number[][]; marked: string[] };
+        if (payload.type === 'init' || payload.type === 'update') {
+          setPlayers(prev => ({
+            ...prev,
+            [conn.peer]: {
+              id: conn.peer,
+              name: payload.name,
+              card: payload.card,
+              marked: payload.marked
+            }
+          }));
+        }
+      });
+      
+      conn.on('close', () => {
+         setPlayers(prev => {
+           const next = { ...prev };
+           delete next[conn.peer];
+           return next;
+         });
+      });
+    });
+
+    return () => {
+      peer.destroy();
+    };
+  }, []);
 
   const toggleNumber = (num: number) => {
     if (drawnNumbers.includes(num)) {
@@ -81,8 +124,6 @@ function App() {
     }
   };
 
-  const isPlayerCard = new URLSearchParams(window.location.search).get('cartela') === 'true';
-
   if (isPlayerCard) {
     return <PlayerCard theme={theme} setTheme={setTheme} />;
   }
@@ -94,7 +135,13 @@ function App() {
         isOpen={isQROpen} 
         onClose={() => setIsQROpen(false)} 
         // Usa o caminho atual do navegador (funciona tanto local quanto no Github Pages)
-        url={`${window.location.origin}${window.location.pathname}?cartela=true`} 
+        url={`${window.location.origin}${window.location.pathname}?cartela=true${hostId ? `&host=${hostId}` : ''}`} 
+      />
+      <PlayersModal
+        isOpen={isPlayersOpen}
+        onClose={() => setIsPlayersOpen(false)}
+        players={players}
+        drawnNumbers={drawnNumbers}
       />
       
       <div className="w-full flex flex-col md:flex-row gap-4 mb-4 items-stretch justify-center">
@@ -113,6 +160,7 @@ function App() {
         isDrawing={isDrawing}
         onFullscreen={toggleFullscreen}
         onOpenQR={() => setIsQROpen(true)}
+        onOpenPlayers={() => setIsPlayersOpen(true)}
       />
       
       <NumberOverlay drawnNumber={overlayNumber} isDrawing={isDrawing} onComplete={() => setOverlayNumber(null)} />

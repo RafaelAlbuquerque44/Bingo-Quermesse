@@ -7,9 +7,9 @@
 
 @layer base {
   :root {
-    /* Premium Soft Light Mode */
-    --bg-color: hsl(210, 20%, 96%); /* Off-white / Soft Gray-Blue */
-    --fg-color: hsl(222, 47%, 15%); /* Dark Slate instead of pure black */
+    /* Modo Claro Super Suave (Cinza mais denso para não doer a vista) */
+    --bg-color: hsl(210, 15%, 80%); /* Cinza fosco, zero claridade forte */
+    --fg-color: hsl(222, 40%, 15%); /* Texto escuro e legível */
   }
   .dark {
     --bg-color: hsl(222.2, 84%, 4.9%);

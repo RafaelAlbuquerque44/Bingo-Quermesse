@@ -30,8 +30,8 @@ export function LastBalls({ drawnNumbers }: LastBallsProps) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 lg:p-10 glass rounded-2xl shadow-xl w-full max-w-4xl border-t-8 border-t-green-500">
-      <h3 className="text-2xl md:text-3xl lg:text-5xl font-bold mb-6 lg:mb-10 text-foreground/80">Últimos Números Chamados</h3>
+    <div className="flex flex-col items-center glass p-3 md:p-6 rounded-3xl w-full max-w-2xl lg:max-w-4xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] dark:shadow-2xl">
+      <h2 className="text-lg md:text-2xl font-black text-foreground/80 mb-2 md:mb-4 uppercase tracking-wider drop-shadow-sm">Últimos Números Chamados</h2>
       <div className="flex items-center justify-center gap-4 lg:gap-8 w-full">
         {previous.map((num, i) => (
           <div 

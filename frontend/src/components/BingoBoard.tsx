@@ -16,14 +16,9 @@ interface BingoBoardProps {
   onToggleNumber: (num: number) => void;
 }
 
-export function getLetter(val: number) {
-  const index = Math.floor((val - 1) / 15);
-  return BINGO_LETTERS[index] || '';
-}
-
 export function BingoBoard({ drawnNumbers, onToggleNumber }: BingoBoardProps) {
   return (
-    <div className="flex flex-col gap-2 w-full mx-auto p-2 md:p-4 glass rounded-2xl shadow-xl">
+    <div className="flex flex-col gap-2 w-full mx-auto p-2 md:p-4 glass rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.2)] dark:shadow-2xl">
       {BINGO_LETTERS.map((letter, i) => {
         const start = i * 15 + 1;
         const numbers = Array.from({ length: 15 }, (_, idx) => start + idx);
@@ -46,8 +41,8 @@ export function BingoBoard({ drawnNumbers, onToggleNumber }: BingoBoardProps) {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => onToggleNumber(num)}
                   className={cn(
-                    "flex-1 aspect-square min-w-[1.5rem] min-h-[1.5rem] flex items-center justify-center rounded-lg lg:rounded-2xl border-2 lg:border-4 text-xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold transition-all duration-300 shadow-sm",
-                    isDrawn ? cn(bgColor, "text-white border-transparent shadow-xl scale-[1.02]") : cn("bg-white dark:bg-background hover:bg-slate-50 dark:hover:bg-foreground/5 shadow-md dark:shadow-sm", borderColor, textColor)
+                    "flex-1 aspect-square min-w-[1.5rem] min-h-[1.5rem] flex items-center justify-center rounded-lg lg:rounded-2xl border-2 lg:border-[3px] text-xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold transition-all duration-300",
+                    isDrawn ? cn(bgColor, "text-white border-transparent shadow-[0_15px_30px_rgba(0,0,0,0.3)] scale-[1.05]") : cn("bg-white dark:bg-background hover:bg-slate-50 dark:hover:bg-foreground/5 shadow-[0_8px_15px_rgba(0,0,0,0.15)] dark:shadow-sm", borderColor, textColor)
                   )}
                 >
                   {num}

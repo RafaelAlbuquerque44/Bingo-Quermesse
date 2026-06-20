@@ -1,4 +1,4 @@
-import { Sun, Moon, QrCode, RefreshCw, Dices, Maximize } from 'lucide-react';
+import { Sun, Moon, QrCode, RefreshCw, Dices, Maximize, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '../lib/utils';
 
@@ -11,9 +11,10 @@ interface ControlsProps {
   isDrawing: boolean;
   onFullscreen: () => void;
   onOpenQR: () => void;
+  onOpenPlayers: () => void;
 }
 
-export function Controls({ onDraw, onReset, theme, setTheme, allDrawn, isDrawing, onFullscreen, onOpenQR }: ControlsProps) {
+export function Controls({ onDraw, onReset, theme, setTheme, allDrawn, isDrawing, onFullscreen, onOpenQR, onOpenPlayers }: ControlsProps) {
   return (
     <div className="fixed bottom-6 left-6 flex flex-col gap-4 z-50">
       <div className="flex gap-2 p-2 glass rounded-full shadow-lg">
@@ -25,6 +26,9 @@ export function Controls({ onDraw, onReset, theme, setTheme, allDrawn, isDrawing
         </button>
         <button onClick={onOpenQR} className="p-3 rounded-full transition-colors hover:bg-foreground/5" title="Mostrar QR Code">
           <QrCode size={24} className="text-foreground/70" />
+        </button>
+        <button onClick={onOpenPlayers} className="p-3 rounded-full transition-colors hover:bg-foreground/5" title="Ver Jogadores">
+          <Users size={24} className="text-foreground/70" />
         </button>
         <div className="w-[1px] bg-foreground/20 mx-1"></div>
         <button onClick={onFullscreen} className="p-3 rounded-full transition-colors hover:bg-foreground/5" title="Tela Cheia">
