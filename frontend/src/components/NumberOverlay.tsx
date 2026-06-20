@@ -71,10 +71,10 @@ function OverlayContent({ drawnNumber, isDrawing, onComplete }: { drawnNumber: n
         exit={{ scale: 0.3, y: -100, opacity: 0 }}
         transition={{ type: "spring", damping: 15, stiffness: 200 }}
         style={{ borderColor: color, color: color }}
-        className="w-[22rem] h-[22rem] md:w-[32rem] md:h-[32rem] lg:w-[45rem] lg:h-[45rem] rounded-full bg-white border-[16px] md:border-[24px] flex flex-col items-center justify-center shadow-[0_0_100px_rgba(255,255,255,0.6)]"
+        className="w-[90vw] h-[90vw] md:w-[85vh] md:h-[85vh] rounded-full bg-white border-[16px] md:border-[32px] flex flex-col items-center justify-center shadow-[0_0_150px_rgba(255,255,255,0.8)]"
       >
-        <span className="text-5xl md:text-7xl lg:text-8xl font-bold mb-[-15px] lg:mb-[-30px] drop-shadow-sm">{letter}</span>
-        <span className="text-[12rem] md:text-[18rem] lg:text-[24rem] font-black leading-none drop-shadow-md">{displayNum}</span>
+        <span className="text-7xl md:text-[8rem] lg:text-[10rem] font-bold mb-[-20px] md:mb-[-40px] drop-shadow-sm">{letter}</span>
+        <span className="text-[14rem] md:text-[26rem] lg:text-[35rem] font-black leading-none drop-shadow-xl">{displayNum}</span>
       </motion.div>
     </motion.div>
   );
