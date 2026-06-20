@@ -35,7 +35,7 @@ interface PlayerCardProps {
 }
 
 export function PlayerCard({ theme, setTheme }: PlayerCardProps) {
-  const [card, setCard] = useState<number[][]>(() => generateCard());
+  const [card] = useState<number[][]>(() => generateCard());
   const [marked, setMarked] = useState<Set<string>>(new Set(['2-2']));
   const [playerName] = useState(() => `Jogador ${Math.floor(Math.random() * 1000)}`);
   

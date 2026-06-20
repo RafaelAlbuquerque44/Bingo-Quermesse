@@ -16,6 +16,12 @@ interface BingoBoardProps {
   onToggleNumber: (num: number) => void;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
+export function getLetter(val: number) {
+  const index = Math.floor((val - 1) / 15);
+  return BINGO_LETTERS[index] || '';
+}
+
 export function BingoBoard({ drawnNumbers, onToggleNumber }: BingoBoardProps) {
   return (
     <div className="flex flex-col gap-2 w-full mx-auto p-2 md:p-4 glass rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.2)] dark:shadow-2xl">
