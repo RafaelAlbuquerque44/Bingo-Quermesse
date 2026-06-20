@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { cn } from '../lib/utils';
 import { BackgroundParticles } from './BackgroundParticles';
+import { Sun, Moon } from 'lucide-react';
 
 const BINGO_LETTERS = ['B', 'I', 'N', 'G', 'O'];
 
@@ -27,7 +28,12 @@ const generateCard = () => {
   return card;
 };
 
-export function PlayerCard() {
+interface PlayerCardProps {
+  theme: string;
+  setTheme: (t: string) => void;
+}
+
+export function PlayerCard({ theme, setTheme }: PlayerCardProps) {
   const [card, setCard] = useState<number[][]>([]);
   const [marked, setMarked] = useState<Set<string>>(new Set(['2-2']));
 
@@ -104,6 +110,14 @@ export function PlayerCard() {
           Bateu? Grite bem alto BINGO!
         </div>
       </div>
+
+      <button 
+        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+        className="fixed bottom-4 right-4 md:bottom-8 md:right-8 p-3 glass rounded-full shadow-lg border-[2px] border-foreground/10 transition-all hover:scale-110 active:scale-95 z-50"
+        title="Alternar Tema"
+      >
+        {theme === 'dark' ? <Sun size={28} className="text-yellow-500 drop-shadow-md" /> : <Moon size={28} className="text-blue-600 drop-shadow-md" />}
+      </button>
     </div>
   );
 }

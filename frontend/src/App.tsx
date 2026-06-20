@@ -87,7 +87,7 @@ function App() {
   const isPlayerCard = new URLSearchParams(window.location.search).get('cartela') === 'true';
 
   if (isPlayerCard) {
-    return <PlayerCard />;
+    return <PlayerCard theme={theme} setTheme={setTheme} />;
   }
 
   return (
