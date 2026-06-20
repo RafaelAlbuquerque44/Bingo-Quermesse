@@ -96,9 +96,8 @@ function App() {
       <QRCodeModal 
         isOpen={isQROpen} 
         onClose={() => setIsQROpen(false)} 
-        // Usa o IP local da rede. Se hostname for localhost, ele só funciona na mesma maquina.
-        // O ideal é a pessoa acessar o IP da maquina dela no futuro, mas vamos usar o hostname base.
-        url={`${window.location.protocol}//${window.location.host}/?cartela=true`} 
+        // Usa o caminho atual do navegador (funciona tanto local quanto no Github Pages)
+        url={`${window.location.origin}${window.location.pathname}?cartela=true`} 
       />
       
       <div className="w-full flex flex-col md:flex-row gap-4 mb-4 items-stretch justify-center">
