@@ -40,10 +40,12 @@ function App() {
 
   const toggleNumber = (num: number) => {
     if (drawnNumbers.includes(num)) {
+      // Se já foi sorteado, apenas remove
       setDrawnNumbers(prev => prev.filter(n => n !== num));
     } else {
-      setDrawnNumbers(prev => [...prev, num]);
+      // Se não foi sorteado, mostra a tela grande (sem suspense) e adiciona
       setOverlayNumber(num);
+      setDrawnNumbers(prev => [...prev, num]);
     }
   };
 

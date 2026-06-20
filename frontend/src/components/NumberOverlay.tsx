@@ -71,10 +71,10 @@ function OverlayContent({ drawnNumber, isDrawing, onComplete }: { drawnNumber: n
         exit={{ scale: 0.3, y: -100, opacity: 0 }}
         transition={{ type: "spring", damping: 15, stiffness: 200 }}
         style={{ borderColor: color, color: color }}
-        className="w-80 h-80 md:w-96 md:h-96 rounded-full bg-white border-[12px] flex flex-col items-center justify-center shadow-[0_0_80px_rgba(255,255,255,0.4)]"
+        className="w-[22rem] h-[22rem] md:w-[32rem] md:h-[32rem] lg:w-[45rem] lg:h-[45rem] rounded-full bg-white border-[16px] md:border-[24px] flex flex-col items-center justify-center shadow-[0_0_100px_rgba(255,255,255,0.6)]"
       >
-        <span className="text-4xl md:text-5xl font-bold mb-[-10px]">{letter}</span>
-        <span className="text-[10rem] md:text-[12rem] font-black leading-none">{displayNum}</span>
+        <span className="text-5xl md:text-7xl lg:text-8xl font-bold mb-[-15px] lg:mb-[-30px] drop-shadow-sm">{letter}</span>
+        <span className="text-[12rem] md:text-[18rem] lg:text-[24rem] font-black leading-none drop-shadow-md">{displayNum}</span>
       </motion.div>
     </motion.div>
   );
