@@ -47,7 +47,7 @@ export function BingoBoard({ drawnNumbers, onToggleNumber }: BingoBoardProps) {
                   onClick={() => onToggleNumber(num)}
                   className={cn(
                     "flex-1 aspect-square min-w-[1.5rem] min-h-[1.5rem] flex items-center justify-center rounded-lg lg:rounded-2xl border-2 lg:border-4 text-xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold transition-all duration-300 shadow-sm",
-                    isDrawn ? cn(bgColor, "text-white border-transparent shadow-xl scale-[1.02]") : cn("bg-background hover:bg-foreground/5", borderColor, textColor)
+                    isDrawn ? cn(bgColor, "text-white border-transparent shadow-xl scale-[1.02]") : cn("bg-white dark:bg-background hover:bg-slate-50 dark:hover:bg-foreground/5 shadow-md dark:shadow-sm", borderColor, textColor)
                   )}
                 >
                   {num}
