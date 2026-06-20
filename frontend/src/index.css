@@ -7,8 +7,9 @@
 
 @layer base {
   :root {
-    --bg-color: hsl(0, 0%, 100%);
-    --fg-color: hsl(222.2, 84%, 4.9%);
+    /* Premium Soft Light Mode */
+    --bg-color: hsl(210, 20%, 96%); /* Off-white / Soft Gray-Blue */
+    --fg-color: hsl(222, 47%, 15%); /* Dark Slate instead of pure black */
   }
   .dark {
     --bg-color: hsl(222.2, 84%, 4.9%);

@@ -26,13 +26,10 @@ function App() {
     
     if (theme === 'dark') {
       root.classList.add('dark');
-      root.style.setProperty('--background', '222.2 84% 4.9%');
     } else if (theme === 'black') {
       root.classList.add('dark', 'black');
-      root.style.setProperty('--background', '0 0% 0%'); // Absolute black
     } else {
       root.classList.add('light');
-      root.style.setProperty('--background', '0 0% 100%');
     }
     
     localStorage.setItem('bingo-theme', theme);
