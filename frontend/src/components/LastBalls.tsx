@@ -10,11 +10,11 @@ export function LastBalls({ drawnNumbers }: LastBallsProps) {
   const lastFive = [...drawnNumbers].reverse().slice(0, 5);
   
   const current = lastFive[0];
-  const previous = lastFive.slice(1, 5).reverse();
+  const previous: (number | null)[] = lastFive.slice(1, 5).reverse();
   
   // pad to 4 elements always
   while(previous.length < 4) {
-    previous.unshift(null as any);
+    previous.unshift(null);
   }
 
   const getColor = (num: number) => {

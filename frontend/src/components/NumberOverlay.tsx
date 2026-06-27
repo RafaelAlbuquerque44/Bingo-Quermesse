@@ -28,21 +28,20 @@ export function NumberOverlay({ drawnNumber, isDrawing, onComplete }: NumberOver
 }
 
 function OverlayContent({ drawnNumber, isDrawing, onComplete }: { drawnNumber: number, isDrawing: boolean, onComplete: () => void }) {
-  const [displayNum, setDisplayNum] = useState(drawnNumber);
+  const [rouletteNum, setRouletteNum] = useState(drawnNumber);
 
   useEffect(() => {
-    if (!isDrawing) {
-      setDisplayNum(drawnNumber);
-      return;
-    }
+    if (!isDrawing) return;
     
     // Efeito de roleta rápida
     const interval = setInterval(() => {
-      setDisplayNum(Math.floor(Math.random() * 75) + 1);
+      setRouletteNum(Math.floor(Math.random() * 75) + 1);
     }, 50);
     
     return () => clearInterval(interval);
-  }, [isDrawing, drawnNumber]);
+  }, [isDrawing]);
+
+  const displayNum = isDrawing ? rouletteNum : drawnNumber;
 
   const letter = getLetter(displayNum);
   const getColor = (l: string) => {

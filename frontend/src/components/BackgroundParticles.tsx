@@ -2,18 +2,14 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 export function BackgroundParticles() {
-  const [particles, setParticles] = useState<{ id: number; size: number; x: number; delay: number; duration: number }[]>([]);
-
-  useEffect(() => {
-    const newParticles = Array.from({ length: 30 }).map((_, i) => ({
-      id: i,
-      size: Math.random() * 80 + 20,
-      x: Math.random() * 100,
-      delay: Math.random() * 10,
-      duration: Math.random() * 30 + 30,
-    }));
-    setParticles(newParticles);
-  }, []);
+  const [particles] = useState(() => Array.from({ length: 30 }).map((_, i) => ({
+    id: i,
+    size: Math.random() * 80 + 20,
+    x: Math.random() * 100,
+    delay: Math.random() * 10,
+    duration: Math.random() * 30 + 30,
+    targetX: Math.random() * 100 - 50,
+  })));
 
   return (
     <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
@@ -30,7 +26,7 @@ export function BackgroundParticles() {
           }}
           animate={{
             y: [0, -window.innerHeight - 300],
-            x: [0, Math.random() * 100 - 50],
+            x: [0, p.targetX],
           }}
           transition={{
             duration: p.duration,
