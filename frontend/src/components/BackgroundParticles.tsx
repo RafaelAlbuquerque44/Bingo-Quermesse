@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export function BackgroundParticles() {
   const [particles] = useState(() => Array.from({ length: 30 }).map((_, i) => ({
