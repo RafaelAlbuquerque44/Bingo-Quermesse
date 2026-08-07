@@ -8,6 +8,7 @@ import { BackgroundParticles } from './components/BackgroundParticles';
 import { PlayerCard } from './components/PlayerCard';
 import { QRCodeModal } from './components/QRCodeModal';
 import { PlayersModal, type PlayerState } from './components/PlayersModal';
+import { VideoPlayer } from './components/VideoPlayer';
 import Peer from 'peerjs';
 
 const isPlayerCard = new URLSearchParams(window.location.search).get('cartela') === 'true';
@@ -19,6 +20,7 @@ function App() {
   const [overlayNumber, setOverlayNumber] = useState<number | null>(null);
   const [isQROpen, setIsQROpen] = useState(false);
   const [isPlayersOpen, setIsPlayersOpen] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   
   const [hostId, setHostId] = useState<string | null>(null);
   const [players, setPlayers] = useState<Record<string, PlayerState>>({});
@@ -144,12 +146,18 @@ function App() {
         drawnNumbers={drawnNumbers}
       />
       
-      <div className="w-full flex flex-col md:flex-row gap-4 mb-4 items-stretch justify-center">
-        <LastBalls drawnNumbers={drawnNumbers} />
-        <MissingCount totalDrawn={drawnNumbers.length} />
-      </div>
-      
-      <BingoBoard drawnNumbers={drawnNumbers} onToggleNumber={toggleNumber} />
+      {isVideoPlaying ? (
+        <VideoPlayer />
+      ) : (
+        <>
+          <div className="w-full flex flex-col md:flex-row gap-4 mb-4 items-stretch justify-center">
+            <LastBalls drawnNumbers={drawnNumbers} />
+            <MissingCount totalDrawn={drawnNumbers.length} />
+          </div>
+          
+          <BingoBoard drawnNumbers={drawnNumbers} onToggleNumber={toggleNumber} />
+        </>
+      )}
       
       <Controls 
         onDraw={drawNumber} 
@@ -160,7 +168,7 @@ function App() {
         isDrawing={isDrawing}
         onFullscreen={toggleFullscreen}
         onOpenQR={() => setIsQROpen(true)}
-        onOpenPlayers={() => setIsPlayersOpen(true)}
+        onToggleVideo={() => setIsVideoPlaying(!isVideoPlaying)}
       />
       
       <NumberOverlay drawnNumber={overlayNumber} isDrawing={isDrawing} onComplete={() => setOverlayNumber(null)} />

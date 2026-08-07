@@ -37,7 +37,7 @@ export function LastBalls({ drawnNumbers }: LastBallsProps) {
           <div 
             key={`prev-${i}-${num || 'empty'}`}
             className={cn(
-              "w-16 h-16 md:w-24 md:h-24 lg:w-32 lg:h-32 rounded-full flex items-center justify-center text-3xl md:text-4xl lg:text-6xl font-bold text-white shadow-inner transition-colors duration-500",
+              "w-16 h-16 md:w-24 md:h-24 lg:w-32 lg:h-32 rounded-full flex items-center justify-center text-3xl md:text-4xl lg:text-6xl font-bold text-black shadow-inner transition-colors duration-500",
               num ? cn(getColor(num), "opacity-80") : "bg-foreground/20 text-transparent opacity-60"
             )}
           >
@@ -65,7 +65,7 @@ export function LastBalls({ drawnNumbers }: LastBallsProps) {
                 exit={{ scale: 0, opacity: 0 }}
                 transition={{ type: "spring", stiffness: 260, damping: 20 }}
                 className={cn(
-                  "w-36 h-36 md:w-48 md:h-48 lg:w-64 lg:h-64 rounded-full flex items-center justify-center text-7xl md:text-8xl lg:text-9xl font-bold text-white shadow-2xl z-10 border-8 border-white/20",
+                  "w-36 h-36 md:w-48 md:h-48 lg:w-64 lg:h-64 rounded-full flex items-center justify-center text-7xl md:text-8xl lg:text-9xl font-bold text-black shadow-2xl z-10 border-8 border-black/20",
                   getColor(current)
                 )}
               >
